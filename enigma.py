@@ -17,7 +17,7 @@ class rotor:
         self.notch = properties["Rotor " + rotor + " Notch"]
         
     def rotate(self):
-        if self.wheelPosition == 1:
+        if self.wheelPosition == 2:
             if self.rotation == 26:
                 self.rotation = 1
             else:
@@ -25,9 +25,23 @@ class rotor:
         else:
             pass
     
-    def passthrough(self, charIn):
-        letterOut = self.outSide[self.inSide.index(charIn)]
-        self.rotate()
+    def passthrough(self, charIn, loop=False):
+        if not loop:
+            inIndex = self.inSide.index(charIn)
+        else:
+            inIndex = self.outSide.index(charIn)
+
+        outIndex = inIndex + self.rotation
+        try:
+            letterOut = self.outSide[outIndex]
+        except IndexError:
+            outIndex = outIndex - 26
+            
+        if not loop:
+            letterOut = self.outSide[outIndex]
+        else:
+            letterOut = self.inSide[outIndex]
+
         return letterOut
 
     def loopThrough(self, charIn):
@@ -37,3 +51,6 @@ class reflector:
     def __init__(self) -> None:
         self.inSide = properties["Reflector In"]
         self.outSite = properties["Reflector Out"]
+
+    def passthrough(self, charIn):
+        return self.inSide[self.inSide.index(charIn)]
