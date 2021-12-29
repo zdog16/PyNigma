@@ -1,3 +1,4 @@
+from typing import ForwardRef
 from rich.traceback import install
 from rich.console import Console
 import yaml
@@ -25,7 +26,7 @@ class rotor:
         else:
             pass
     
-    def passthrough(self, charIn, loop=False):
+    def passthrough(self, charIn, loop=False, returnIndex=False):
         if not loop:
             inIndex = self.inSide.index(charIn)
         else:
@@ -35,22 +36,28 @@ class rotor:
         try:
             letterOut = self.outSide[outIndex]
         except IndexError:
-            outIndex = outIndex - 26
+            outIndex = outIndex - 25
             
         if not loop:
             letterOut = self.outSide[outIndex]
         else:
             letterOut = self.inSide[outIndex]
 
-        return letterOut
+        if returnIndex:
+            return letterOut, outIndex
+        else:
+            return letterOut
 
-    def loopThrough(self, charIn):
-        return self.inSide[self.outSide.index(charIn)]
+    def getInd(self, index, forward=True):
+        if forward:
+            return self.inSide[index]
+        else:
+            return self.outSide[index]
 
 class reflector:
     def __init__(self) -> None:
         self.inSide = properties["Reflector In"]
-        self.outSite = properties["Reflector Out"]
+        self.outSide = properties["Reflector Out"]
 
-    def passthrough(self, charIn):
-        return self.inSide[self.inSide.index(charIn)]
+    def passthrough(self, indIn):
+        return self.outSide[self.inSide.index(indIn)]

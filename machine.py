@@ -20,15 +20,15 @@ reflector = enigma.reflector()
 def encryptChar(char):
     wheel2.rotate()
     step1 = wheel2.passthrough(char)
-    c.print(step1)
-    step2 = wheel1.passthrough(step1)
-    c.print(step2)
-    step3 = reflector.passthrough(step2)
-    c.print(step3)
-    step4 = wheel1.passthrough(step3, loop=True)
-    c.print(step4)
+    c.print("Step 1 " + step1)
+    step2_char, step2_index = wheel1.passthrough(step1, returnIndex=True)
+    c.print("Step 2 " + step2_char)
+    step3_index = reflector.passthrough(step2_index)
+    c.print("Step 3 " + str(step3_index))
+    step4 = wheel1.getInd(step3_index)
+    c.print("Step 4 " + step4)
     step5 = wheel2.passthrough(step4, loop=True)
-    c.print(step5)
+    c.print("Step 5 " + step5)
     return step5
 
 

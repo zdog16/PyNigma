@@ -18,16 +18,11 @@ def oldStuff():
         properties = yaml.safe_load(file)
     c.print(properties)
 
-alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-alph_list = []
-for i in alphabet:
-    alph_list.append(i)
+list_in = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+list_out = []
+for i in range(0, 25):
+    choice = random.choice(list_in)
+    list_out.append(choice)
+    list_in.remove(choice)
 
-scramble = ""
-for i in range(1, 27):
-    char = random.choice(alph_list)
-    scramble = scramble + char
-    alph_list.remove(char)
-
-c.print(scramble)
-pyperclip.copy(scramble)
+c.print(list_out)
